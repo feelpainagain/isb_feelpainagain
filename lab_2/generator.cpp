@@ -20,5 +20,5 @@ int generator()
 
 int main()
 {
-    cout << generator();
+    cout << generator() << endl;
 }
