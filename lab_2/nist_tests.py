@@ -1,6 +1,6 @@
 import logging
 import math
-from work_files import*
+from work_files import *
 
 import mpmath
 
@@ -11,21 +11,41 @@ PI = {1: 0.2148, 2: 0.3672, 3: 0.2305, 4: 0.1875}
 
 def bitwise_test(sequence) -> float:
 
+    """
+    func that does bitwise test
+    Args:
+        func gets a sequence
+
+    Returns:
+        checks the quality of random of sequence
+
+    """
+
     try:
-        sum = 0
+        summa = 0
         for i in sequence:
             if int(i) == 1:
-                sum += 1
+                summa += 1
             else:
-                sum -= 1
-        sum = math.fabs(sum) / math.sqrt(len(sequence))
-        p_value = math.erfc(sum / math.sqrt(2))
+                summa -= 1
+        summa = math.fabs(summa) / math.sqrt(len(sequence))
+        p_value = math.erfc(summa / math.sqrt(2))
         return p_value
     except Exception as ex:
         logging.error(f"ZeroDivisionError: {ex.message}\n{ex.args}\n")
 
 
 def same_bits_test(sequence) -> float:
+
+    """
+    func that show how many one-typed bits are there
+    Args:
+        sequence: a given sequence
+
+    Returns:
+        how many one-typed bits are there
+
+    """
 
     try:
         counter = sequence.count("1")
@@ -47,15 +67,35 @@ def same_bits_test(sequence) -> float:
 
 def split_bits(sequence) -> list:
 
+    """
+    func than splits sequence in blocks of 8 bits
+    Args:
+        sequence: given sequence
+
+    Returns:
+        blocks formed from sequence on 8
+
+    """
+
     blocks = []
     quantity = len(sequence) - (len(sequence) % 8)
     for i in range(0, quantity, 8):
-        block = sequence[i : i + 8]
+        block = sequence[i: i + 8]
         blocks.append(block)
     return blocks
 
 
 def largest_number_of_units(blocks: list) -> dict:
+
+    """
+    func that check how many one-typed units are in blocks
+    Args:
+        blocks: made up blocks
+
+    Returns:
+        a sorted dictionary
+
+    """
 
     try:
         unit_counts = {}
@@ -81,6 +121,16 @@ def largest_number_of_units(blocks: list) -> dict:
 
 
 def length_test(dictionary: dict) -> float:
+
+    """
+    func that shows the longest sequence in block
+    Args:
+        dictionary: given dict
+
+    Returns:
+        number of longest sequence
+
+    """
  
     try:
         square_x = 0
@@ -96,7 +146,7 @@ def length_test(dictionary: dict) -> float:
 
 if __name__ == "__main__":
 
-    sequence_java = read_text('sequence_java.txt')
+    sequence_java = read_text('texts/sequence_java.txt')
     print(bitwise_test(sequence_java))
     print(same_bits_test(sequence_java))
     print(
@@ -104,7 +154,7 @@ if __name__ == "__main__":
             largest_number_of_units(split_bits(sequence_java))
         )
     )
-    sequence_cpp = read_text('sequence_cpp.txt')
+    sequence_cpp = read_text('texts/sequence_cpp.txt')
     print(bitwise_test(sequence_cpp))
     print(same_bits_test(sequence_cpp))
     print(
