@@ -1,7 +1,5 @@
 from work_files import *
-
-
-alphabet = "abcdefghijklmnopqrstuvwxyz"
+from consts import *
 
 
 def task_1(plain_text: str, key: str, encrypted: str):
@@ -18,23 +16,22 @@ def task_1(plain_text: str, key: str, encrypted: str):
 
     result_string = ''
     for letter in text:
-        try:
-            index = alphabet.index(letter)
-            result_string = result_string + alphabet_replacement[index]
-        except ValueError:
-            # print("That was no valid number!")
-            result_string = result_string + letter      
+        index = ALPHABET.index(letter)
+        if index:
+            result_string += alphabet_replacement[index]
+        else:
+            result_string += letter      
 
     print(result_string)
 
     write_text(encrypted, result_string)
 
-    for i in range(0, len(alphabet)):
-        print(alphabet[i] + ' -> ' + alphabet_replacement[i])
+    for i in range(0, len(ALPHABET)):
+        print(ALPHABET[i] + ' -> ' + alphabet_replacement[i])
 
 
 def task_2(plain_text: str, key: str, decrypted: str, normal_alphabet: str):
-    """ func for decrytption
+    """ func for decryption
     Args:
       plain_text: encrypted text
       key: required key (string)
@@ -51,21 +48,6 @@ def task_2(plain_text: str, key: str, decrypted: str, normal_alphabet: str):
     decrypted_text = decrypt(data, decryption_mapping)
 
     write_text(decrypted, decrypted_text)
-
-
-def decrypt(text, decryption_mapping):
-    """ func for transposing by key
-    Args:
-      text: encrypted text
-      decryption_mapping: dictionary with key transposition
-    Returns:
-       ready decrypted text
-    """
-    decrypted_text = ''
-    for char in text:
-        decrypted_text += decryption_mapping.get(char, char)
-
-    return decrypted_text
 
 
 def main():

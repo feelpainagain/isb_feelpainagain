@@ -61,3 +61,17 @@ def read_json(file: str):
 
     return text_1, key_1, encrypted, text_2, key_2, decrypted, alphabet
 
+
+def decrypt(text, decryption_mapping):
+    """ func for transposing by key
+    Args:
+      text: encrypted text
+      decryption_mapping: dictionary with key transposition
+    Returns:
+       ready decrypted text
+    """
+    decrypted_text = ''
+    for char in text:
+        decrypted_text += decryption_mapping.get(char, char)
+
+    return decrypted_text
