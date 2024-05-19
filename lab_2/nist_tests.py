@@ -1,8 +1,9 @@
 import logging
 import math
+import mpmath
+
 from work_files import *
 
-import mpmath
 
 logging.basicConfig(level=logging.INFO)
 
@@ -22,14 +23,10 @@ def bitwise_test(sequence) -> float:
     """
 
     try:
-        summa = 0
-        for i in sequence:
-            if int(i) == 1:
-                summa += 1
-            else:
-                summa -= 1
-        summa = math.fabs(summa) / math.sqrt(len(sequence))
-        p_value = math.erfc(summa / math.sqrt(2))
+        sum = 0
+        sum = sum(1 if int(i) == 1 else -1 for i in sequence)
+        sum = math.fabs(sum) / math.sqrt(len(sequence))
+        p_value = math.erfc(sum / math.sqrt(2))
         return p_value
     except Exception as ex:
         logging.error(f"ZeroDivisionError: {ex.message}\n{ex.args}\n")
