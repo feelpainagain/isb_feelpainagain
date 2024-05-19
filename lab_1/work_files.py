@@ -1,5 +1,7 @@
 import json
 
+from consts import *
+
 
 def read_text(path: str):
     """ func reads text from file
@@ -75,3 +77,14 @@ def decrypt(text, decryption_mapping):
         decrypted_text += decryption_mapping.get(char, char)
 
     return decrypted_text
+
+
+def encrypt(text, encryption_mapping):
+    result_string = ''
+    for letter in text:
+        index = ALPHABET.index(letter)
+        if index:
+            result_string += encryption_mapping[index]
+        else:
+            result_string += letter
+    return result_string

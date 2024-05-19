@@ -14,13 +14,7 @@ def task_1(plain_text: str, key: str, encrypted: str):
 
     print(alphabet_replacement)
 
-    result_string = ''
-    for letter in text:
-        index = ALPHABET.index(letter)
-        if index:
-            result_string += alphabet_replacement[index]
-        else:
-            result_string += letter      
+    result_string = encrypt(text, alphabet_replacement)
 
     print(result_string)
 
