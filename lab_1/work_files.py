@@ -80,6 +80,15 @@ def decrypt(text, decryption_mapping):
 
 
 def encrypt(text, encryption_mapping):
+    """
+    func that encrypts text
+    Args:
+        text: existing text
+        encryption_mapping:  given mapping for encryption
+
+    Returns: text encrypted
+
+    """
     result_string = ''
     for letter in text:
         index = ALPHABET.index(letter)
