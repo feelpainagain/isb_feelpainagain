@@ -7,18 +7,18 @@ def main():
     group.add_argument('-gen', '--generation', type=str, help='Call function to generate keys', dest='generation')
     group.add_argument('-enc', '--encryption', type=str, help='Call function to encrypt', dest='encryption')
     group.add_argument('-dec', '--decryption', type=str, help='Call function to decrypt', dest='decryption')
-    parser.add_argument("-isec", "--input_secret_key", dest="secret_key", default="files/keys/secret_key.pem",
+    parser.add_argument("-inseckey", "--input_secret_key", dest="secret_key", default="files/keys/secret_key.pem",
                         required=False, type=validate_file, help="input path to secret key", metavar="FILE")
-    parser.add_argument("-ipk", "--input_public_key", dest="public_key", default="files/keys/public_key.pem",
+    parser.add_argument("-inpubkey", "--input_public_key", dest="public_key", default="files/keys/public_key.pem",
                         required=False, type=validate_file, help="input path to public key", metavar="FILE")
-    parser.add_argument("-isym", "--input_symmetric_key", dest="symmetric_key", default="files/keys/symmetric_key.txt",
+    parser.add_argument("-insymkey", "--input_symmetric_key", dest="symmetric_key", default="files/keys/symmetric_key.txt",
                         required=False, type=validate_file, help="input path to symmetric key", metavar="FILE")
-    parser.add_argument("-ipl", "--input_plain_text", dest="plain_text", default="files/texts/text.txt",
+    parser.add_argument("-inplanetext", "--input_plain_text", dest="plain_text", default="files/texts/text.txt",
                         required=False, type=validate_file, help="input path to plain text", metavar="FILE")
-    parser.add_argument("-ienc", "--input_encrypted_text", dest="encrypted_text",
+    parser.add_argument("-inenctext", "--input_encrypted_text", dest="encrypted_text",
                         default="files/texts/encrypted_text.txt", required=False, type=validate_file,
                         help="input path to encrypted text", metavar="FILE")
-    parser.add_argument("-idec", "--input_decrypted_text", dest="decrypted_text",
+    parser.add_argument("-indectext", "--input_decrypted_text", dest="decrypted_text",
                         default="files/texts/decrypted_text.txt", required=False, type=validate_file,
                         help="input path to decrypted text", metavar="FILE")
     args = parser.parse_args()
