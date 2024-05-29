@@ -6,8 +6,8 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 def decrypt(cipher_txt, symmetrical_key, iv):
     """
     :param cipher_txt: encrypted text
-    :param symmetrical_key: Symmetric key
-    :param iv: Nonce for decrypt
+    :param symmetrical_key: symmetric key
+    :param iv: iv for decrypt
     """
     cipher = Cipher(algorithms.SEED(symmetrical_key), modes.CBC(iv))
     decryptor = cipher.decryptor()
@@ -20,8 +20,8 @@ def decrypt(cipher_txt, symmetrical_key, iv):
 
 def encrypt(txt, symmetrical_key):
     """
-    :param txt: Plain text
-    :param symmetrical_key: Symmetric key
+    :param txt: text
+    :param symmetrical_key: symmetric key
     """
     iv = os.urandom(16)
     cipher = Cipher(algorithms.SEED(symmetrical_key), modes.CBC(iv))
