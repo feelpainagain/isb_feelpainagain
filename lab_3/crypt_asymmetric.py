@@ -32,4 +32,3 @@ def encrypt(txt, symmetrical_key):
     res = {'ciphertxt': ciphertext, 'iv': iv}
 
     return res
-
