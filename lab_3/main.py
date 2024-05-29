@@ -11,7 +11,8 @@ def main():
                         required=False, type=validate_file, help="input path to secret key", metavar="FILE")
     parser.add_argument("-inpubkey", "--input_public_key", dest="public_key", default="files/keys/public_key.pem",
                         required=False, type=validate_file, help="input path to public key", metavar="FILE")
-    parser.add_argument("-insymkey", "--input_symmetric_key", dest="symmetric_key", default="files/keys/symmetric_key.txt",
+    parser.add_argument("-insymkey", "--input_symmetric_key", dest="symmetric_key",
+                        default="files/keys/symmetric_key.txt",
                         required=False, type=validate_file, help="input path to symmetric key", metavar="FILE")
     parser.add_argument("-inplanetext", "--input_plain_text", dest="plain_text", default="files/texts/text.txt",
                         required=False, type=validate_file, help="input path to plain text", metavar="FILE")
