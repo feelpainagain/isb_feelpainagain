@@ -33,6 +33,14 @@ def decrypt_file(path_to_encrypt_file: str, path_to_secret_key: str, path_to_sym
 
 
 def get_arguments(args, path_to_settings):
+    """
+    func that obtains a set of arguments required for programme execution
+        Args:
+            args: set of arguments got from terminal
+            path_to_settings: path to the settings file with default settings if the user has not entered args
+        Returns:
+            data required for program execution
+        """
     json_data = read_json(path_to_settings)
 
     value = ''
@@ -43,38 +51,52 @@ def get_arguments(args, path_to_settings):
     path_encrypted_file = ''
     path_decrypted_file = ''
 
-    if args.generation is not None:
-        value = 'generation'
-        if args.symmetric_key is not None:
-            path_symmetric_key = args.symmetric_key
-        if args.public_key is not None:
-            path_public_key = args.public_key
-        if args.secret_key is not None:
-            path_secret_key = args.secret_key
-    elif args.encryption is not None:
-        value = 'encryption'
-        if args.symmetric_key is not None:
-            path_symmetric_key = args.symmetric_key
-        if args.public_key is not None:
-            path_public_key = args.public_key
-        if args.secret_key is not None:
-            path_secret_key = args.secret_key
-        if args.plain_text is not None:
-            path_initial_file = args.plain_text
-        if args.encrypted_text is not None:
-            path_encrypted_file = args.encrypted_text
-    elif args.decryption is not None:
-        value = 'decryption'
-        if args.symmetric_key is not None:
-            path_symmetric_key = args.symmetric_key
-        if args.public_key is not None:
-            path_public_key = args.public_key
-        if args.secret_key is not None:
-            path_secret_key = args.secret_key
-        if args.encrypted_text is not None:
-            path_encrypted_file = args.encrypted_text
-        if args.decrypted_text is not None:
-            path_decrypted_file = args.decrypted_text
+    match args:
+        case args if args.generation:
+            value = 'generation'
+            match args:
+                case args if args.symmetric_key and args.public_key and args.secret_key:
+                    path_symmetric_key = args.symmetric_key
+                    path_public_key = args.public_key
+                    path_secret_key = args.secret_key
+                case _:
+                    path_symmetric_key = json_data["symmetric_key"]
+                    path_public_key = json_data["public_key"]
+                    path_secret_key = json_data["secret_key"]
+        case args if args.encryption:
+            value = 'encryption'
+            match args:
+                case args if (args.symmetric_key and args.public_key and args.secret_key
+                              and args.plain_text and args.encrypted_text):
+                    path_symmetric_key = args.symmetric_key
+                    path_public_key = args.public_key
+                    path_secret_key = args.secret_key
+                    path_initial_file = args.plain_text
+                    path_encrypted_file = args.encrypted_text
+                case _:
+                    path_symmetric_key = json_data["symmetric_key"]
+                    path_public_key = json_data["public_key"]
+                    path_secret_key = json_data["secret_key"]
+                    path_initial_file = json_data["text"]
+                    path_encrypted_file = json_data["encrypted_text"]
+        case args if args.decryption:
+            value = 'decryption'
+            match args:
+                case args if (args.symmetric_key and args.public_key and args.secret_key
+                              and args.encrypted_text and args.decrypted_text):
+                    path_symmetric_key = args.symmetric_key
+                    path_public_key = args.public_key
+                    path_secret_key = args.secret_key
+                    path_encrypted_file = args.encrypted_text
+                    path_decrypted_file = args.decrypted_text
+                case _:
+                    path_symmetric_key = json_data["symmetric_key"]
+                    path_public_key = json_data["public_key"]
+                    path_secret_key = json_data["secret_key"]
+                    path_encrypted_file = json_data["encrypted_text"]
+                    path_decrypted_file = json_data["decrypted_text"]
+        case _:
+            print(f"Args '{args}' not understood")
 
     return (value, path_symmetric_key, path_public_key, path_secret_key, path_initial_file,
             path_encrypted_file, path_decrypted_file)

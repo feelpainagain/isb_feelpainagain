@@ -1,10 +1,12 @@
 import os
+
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 
 def decrypt(cipher_txt, symmetrical_key, iv):
     """
+    func that decrypts cipher txt using symmetrical key
     :param cipher_txt: encrypted text
     :param symmetrical_key: symmetric key
     :param iv: iv for decrypt
@@ -20,6 +22,7 @@ def decrypt(cipher_txt, symmetrical_key, iv):
 
 def encrypt(txt, symmetrical_key):
     """
+    func that encrypts txt using symmetrical key
     :param txt: text
     :param symmetrical_key: symmetric key
     """
