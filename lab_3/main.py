@@ -1,44 +1,52 @@
-from functions import *
+import argparse
+import json
+
+from parser import ArgumentParser
+from functions import EncryptionManagement
+from keys_functions import KeyManagement
+
+
+def load_settings(settings_path):
+    with open(settings_path, 'r') as file:
+        return json.load(file)
 
 
 def main():
-    parser = argparse.ArgumentParser(description='main.py')
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-gen', '--generation', type=str, help='Call function to generate keys', dest='generation')
-    group.add_argument('-enc', '--encryption', type=str, help='Call function to encrypt', dest='encryption')
-    group.add_argument('-dec', '--decryption', type=str, help='Call function to decrypt', dest='decryption')
-    parser.add_argument("-inseckey", "--input_secret_key", dest="secret_key", default="files/keys/secret_key.pem",
-                        required=False, type=validate_file, help="input path to secret key", metavar="FILE")
-    parser.add_argument("-inpubkey", "--input_public_key", dest="public_key", default="files/keys/public_key.pem",
-                        required=False, type=validate_file, help="input path to public key", metavar="FILE")
-    parser.add_argument("-insymkey", "--input_symmetric_key", dest="symmetric_key",
-                        default="files/keys/symmetric_key.txt",
-                        required=False, type=validate_file, help="input path to symmetric key", metavar="FILE")
-    parser.add_argument("-inplanetext", "--input_plain_text", dest="plain_text", default="files/texts/text.txt",
-                        required=False, type=validate_file, help="input path to plain text", metavar="FILE")
-    parser.add_argument("-inenctext", "--input_encrypted_text", dest="encrypted_text",
-                        default="files/texts/encrypted_text.txt", required=False, type=validate_file,
-                        help="input path to encrypted text", metavar="FILE")
-    parser.add_argument("-indectext", "--input_decrypted_text", dest="decrypted_text",
-                        default="files/texts/decrypted_text.txt", required=False, type=validate_file,
-                        help="input path to decrypted text", metavar="FILE")
+    parser = argparse.ArgumentParser(description="Encryption and Decryption")
+    parser.add_argument('--generation', action='store_true', help="Generate keys")
+    parser.add_argument('--encryption', action='store_true', help="Encrypt file")
+    parser.add_argument('--decryption', action='store_true', help="Decrypt file")
+    parser.add_argument('--symmetric_key', type=str, help="Path to symmetric key")
+    parser.add_argument('--public_key', type=str, help="Path to public key")
+    parser.add_argument('--secret_key', type=str, help="Path to secret key")
+    parser.add_argument('--plain_text', type=str, help="Path to initial file")
+    parser.add_argument('--encrypted_text', type=str, help="Path to encrypted file")
+    parser.add_argument('--decrypted_text', type=str, help="Path to decrypted file")
+    parser.add_argument('--settings', type=str, default='settings.json', help="Path to settings file")
+
     args = parser.parse_args()
 
-    (value, path_symmetric_key, path_public_key, path_secret_key,
-     path_initial_file, path_encrypted_file, path_decrypted_file) = get_arguments(args, "settings.json")
+    # Load settings from the file
+    settings = load_settings(args.settings)
 
-    match value:
-        case 'generation':
-            key_generation(path_symmetric_key, path_public_key, path_secret_key)
-            print('keys created')
-        case 'encryption':
-            encrypt_file(path_initial_file, path_secret_key, path_symmetric_key, path_encrypted_file)
-            print('file encrypted')
-        case 'decryption':
-            decrypt_file(path_encrypted_file, path_secret_key, path_symmetric_key, path_decrypted_file)
-            print('file decrypted')
-        case _:
-            print(f"Args '{args}' not understood")
+    # Override settings with command line arguments if provided
+    path_symmetric_key = args.symmetric_key or settings.get('symmetric_key')
+    path_public_key = args.public_key or settings.get('public_key')
+    path_secret_key = args.secret_key or settings.get('secret_key')
+    path_initial_file = args.plain_text or settings.get('text')
+    path_encrypted_file = args.encrypted_text or settings.get('encrypted_text')
+    path_decrypted_file = args.decrypted_text or settings.get('decrypted_text')
+
+    arg_parser = ArgumentParser()
+    enc_mgmt = EncryptionManagement()
+    key_mgmt = KeyManagement()
+
+    if args.generation:
+        key_mgmt.key_generation(path_symmetric_key, path_public_key, path_secret_key)
+    elif args.encryption:
+        enc_mgmt.encrypt_file(path_initial_file, path_secret_key, path_symmetric_key, path_encrypted_file)
+    elif args.decryption:
+        enc_mgmt.decrypt_file(path_encrypted_file, path_secret_key, path_symmetric_key, path_decrypted_file)
 
 
 if __name__ == "__main__":
